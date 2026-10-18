@@ -1,0 +1,43 @@
+table correlation_pairs
+	lineageTag: 25941aa7-19c3-4a5d-a0b4-39ef13ef1227
+
+	column 'Company'
+		dataType: string
+		lineageTag: 162328aa-9edb-45a8-9fc3-5bde1d3a243a
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comparison_Company'
+		dataType: string
+		lineageTag: 8f97cfbb-58f0-4c59-bcb2-66d56075cf8f
+		summarizeBy: none
+		sourceColumn: Comparison_Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Correlation'
+		dataType: double
+		lineageTag: 89d546e6-6be0-4766-bf5b-1fc6166a1ea2
+		summarizeBy: sum
+		sourceColumn: Correlation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition correlation_pairs = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\correlation_pairs.csv"),[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Company", "Comparison_Company", "Correlation"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Company", type text}, {"Comparison_Company", type text}, {"Correlation", type number}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

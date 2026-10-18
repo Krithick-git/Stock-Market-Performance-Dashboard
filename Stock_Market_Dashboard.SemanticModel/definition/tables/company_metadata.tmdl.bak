@@ -1,0 +1,18 @@
+table company_metadata
+	lineageTag: f5cf1498-9d15-495b-8929-f865ad3a777b
+
+	partition company_metadata = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\company_metadata.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Industry", "Market_Cap_Tier", "Currency"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{     })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,205 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "p3_table_sector_detail",
+  "position": {
+    "x": 620,
+    "y": 380,
+    "z": 6000,
+    "height": 320,
+    "width": 640,
+    "tabOrder": -1001
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "objects": {
+      "columnWidth": [],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'A table'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sector Summary Performance & Liquidity Details'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Sector"
+                }
+              },
+              "queryRef": "sector_summary.Sector",
+              "nativeQueryRef": "Sector"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Company_Count"
+                }
+              },
+              "queryRef": "sector_summary.Company_Count",
+              "nativeQueryRef": "Company_Count"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Activity_Weight_Pct"
+                }
+              },
+              "queryRef": "sector_summary.Activity_Weight_Pct",
+              "nativeQueryRef": "Activity_Weight_Pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Avg_Daily_Return"
+                }
+              },
+              "queryRef": "sector_summary.Avg_Daily_Return",
+              "nativeQueryRef": "Avg_Daily_Return"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Avg_Annual_Volatility"
+                }
+              },
+              "queryRef": "sector_summary.Avg_Annual_Volatility",
+              "nativeQueryRef": "Avg_Annual_Volatility"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sector_summary"
+                    }
+                  },
+                  "Property": "Avg_Volume"
+                }
+              },
+              "queryRef": "sector_summary.Avg_Volume",
+              "nativeQueryRef": "Avg_Volume"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

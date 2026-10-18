@@ -1,0 +1,108 @@
+table risk_return_summary
+	lineageTag: 5a44df9d-3406-4e64-a205-c2fb8e3bda25
+
+	column 'Total_Trading_Days'
+		dataType: double
+		lineageTag: b0a96012-a04d-4f45-8a88-1775f66bb531
+		summarizeBy: sum
+		sourceColumn: Total_Trading_Days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Start_Price_INR'
+		dataType: double
+		lineageTag: 7a063fa6-16b6-4639-aadd-a882613eaf03
+		summarizeBy: sum
+		sourceColumn: Start_Price_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'End_Price_INR'
+		dataType: double
+		lineageTag: cbfb8f33-c7f5-4dab-91d4-191be6b418d1
+		summarizeBy: sum
+		sourceColumn: End_Price_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total_Return_Pct'
+		dataType: double
+		lineageTag: 61675bda-4867-422e-9a92-6cb34b97f4b4
+		summarizeBy: sum
+		sourceColumn: Total_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Annualized_Return_CAGR_Pct'
+		dataType: double
+		lineageTag: 598bf5e0-ff0f-415e-b937-fc736718777a
+		summarizeBy: sum
+		sourceColumn: Annualized_Return_CAGR_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Annualized_Volatility_Pct'
+		dataType: double
+		lineageTag: d9d5dbab-02f7-4d8b-af72-99195d86c4c9
+		summarizeBy: sum
+		sourceColumn: Annualized_Volatility_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sharpe_Ratio'
+		dataType: double
+		lineageTag: 590b1613-f0ca-478b-8899-0d5adceb88f2
+		summarizeBy: sum
+		sourceColumn: Sharpe_Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Max_Drawdown_Pct'
+		dataType: double
+		lineageTag: 5324eda4-47dc-4e9c-84dd-ffbcb46fc1bd
+		summarizeBy: sum
+		sourceColumn: Max_Drawdown_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Daily_Volume'
+		dataType: double
+		lineageTag: 7466f133-3083-4dc3-a3e0-8a9c62cf9a41
+		summarizeBy: sum
+		sourceColumn: Avg_Daily_Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition risk_return_summary = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\risk_return_summary.csv"),[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Start_Date", "End_Date", "Total_Trading_Days", "Start_Price_INR", "End_Price_INR", "Total_Return_Pct", "Annualized_Return_CAGR_Pct", "Annualized_Volatility_Pct", "Sharpe_Ratio", "Max_Drawdown_Pct", "Avg_Daily_Volume"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Total_Trading_Days", type number}, {"Start_Price_INR", type number}, {"End_Price_INR", type number}, {"Total_Return_Pct", type number}, {"Annualized_Return_CAGR_Pct", type number}, {"Annualized_Volatility_Pct", type number}, {"Sharpe_Ratio", type number}, {"Max_Drawdown_Pct", type number}, {"Avg_Daily_Volume", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

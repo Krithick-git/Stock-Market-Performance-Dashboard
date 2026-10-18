@@ -1,0 +1,261 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "p2_table_matrix",
+  "position": {
+    "x": 20,
+    "y": 465,
+    "z": 6000,
+    "height": 240,
+    "width": 1240,
+    "tabOrder": -1001
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "objects": {
+      "columnWidth": [],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'A table'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Comparative Equity Performance Matrix (2020-2024)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Ticker"
+                }
+              },
+              "queryRef": "risk_return_summary.Ticker",
+              "nativeQueryRef": "Ticker"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Company"
+                }
+              },
+              "queryRef": "risk_return_summary.Company",
+              "nativeQueryRef": "Company"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Sector"
+                }
+              },
+              "queryRef": "risk_return_summary.Sector",
+              "nativeQueryRef": "Sector"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Start_Price_INR"
+                }
+              },
+              "queryRef": "risk_return_summary.Start_Price_INR",
+              "nativeQueryRef": "Start_Price_INR"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "End_Price_INR"
+                }
+              },
+              "queryRef": "risk_return_summary.End_Price_INR",
+              "nativeQueryRef": "End_Price_INR"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Total_Return_Pct"
+                }
+              },
+              "queryRef": "risk_return_summary.Total_Return_Pct",
+              "nativeQueryRef": "Total_Return_Pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Annualized_Return_CAGR_Pct"
+                }
+              },
+              "queryRef": "risk_return_summary.Annualized_Return_CAGR_Pct",
+              "nativeQueryRef": "Annualized_Return_CAGR_Pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Annualized_Volatility_Pct"
+                }
+              },
+              "queryRef": "risk_return_summary.Annualized_Volatility_Pct",
+              "nativeQueryRef": "Annualized_Volatility_Pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Sharpe_Ratio"
+                }
+              },
+              "queryRef": "risk_return_summary.Sharpe_Ratio",
+              "nativeQueryRef": "Sharpe_Ratio"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_return_summary"
+                    }
+                  },
+                  "Property": "Max_Drawdown_Pct"
+                }
+              },
+              "queryRef": "risk_return_summary.Max_Drawdown_Pct",
+              "nativeQueryRef": "Max_Drawdown_Pct"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

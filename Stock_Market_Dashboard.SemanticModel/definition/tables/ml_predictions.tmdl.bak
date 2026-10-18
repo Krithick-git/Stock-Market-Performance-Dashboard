@@ -1,0 +1,98 @@
+table ml_predictions
+	lineageTag: 5ee33f65-c15a-44dd-86c8-e899c610ceb1
+
+	column 'Close'
+		dataType: double
+		lineageTag: 8edb99e5-e76b-40f8-8086-c814abf4f233
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Predicted_Close'
+		dataType: double
+		lineageTag: cde87391-7ae6-4948-ad9c-af1ab85e2c23
+		summarizeBy: sum
+		sourceColumn: Predicted_Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Residual_Error'
+		dataType: double
+		lineageTag: 2c3fe3b0-4168-48e5-ae0d-0fa2d4aa02c8
+		summarizeBy: sum
+		sourceColumn: Residual_Error
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs_Error_Pct'
+		dataType: double
+		lineageTag: 437ecfb3-19a9-4a50-a0df-4e5eb5b6b08f
+		summarizeBy: sum
+		sourceColumn: Abs_Error_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SMA_20'
+		dataType: double
+		lineageTag: 351b834f-ad55-4151-be7a-44486e13a740
+		summarizeBy: sum
+		sourceColumn: SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volatility_20'
+		dataType: double
+		lineageTag: b3e7f241-fab1-4b5b-968b-f05f7382ab28
+		summarizeBy: sum
+		sourceColumn: Volatility_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volume_SMA_20'
+		dataType: double
+		lineageTag: 93984a49-3bff-4e55-8b41-870aacfb2bad
+		summarizeBy: sum
+		sourceColumn: Volume_SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Daily_Return_Pct'
+		dataType: double
+		lineageTag: cac236bc-bb15-44b9-a26a-44ac04d826cc
+		summarizeBy: sum
+		sourceColumn: Daily_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ml_predictions = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_predictions.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Date", "Ticker", "Company", "Sector", "Close", "Predicted_Close", "Residual_Error", "Abs_Error_Pct", "Split", "SMA_20", "Volatility_20", "Volume_SMA_20", "Daily_Return_Pct"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Close", type number}, {"Predicted_Close", type number}, {"Residual_Error", type number}, {"Abs_Error_Pct", type number}, {"SMA_20", type number}, {"Volatility_20", type number}, {"Volume_SMA_20", type number}, {"Daily_Return_Pct", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

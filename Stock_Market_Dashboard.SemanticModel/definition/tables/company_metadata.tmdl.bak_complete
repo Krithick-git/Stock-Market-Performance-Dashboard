@@ -1,0 +1,65 @@
+table company_metadata
+	lineageTag: f5cf1498-9d15-495b-8929-f865ad3a777b
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: d34e2d2f-b8ea-4bbe-9aa7-80d726554484
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: d9e7ea57-0f13-43a9-9e60-d0eb556752f4
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: 7b230278-aac5-4f8f-a11b-5a8c13223369
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Industry'
+		dataType: string
+		lineageTag: c4aff628-7fb7-493a-8f18-81eea9de5080
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Market_Cap_Tier'
+		dataType: string
+		lineageTag: bb7e18d0-b564-41eb-9731-a37fc252d978
+		summarizeBy: none
+		sourceColumn: Market_Cap_Tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency'
+		dataType: string
+		lineageTag: 29726729-1820-4394-a96d-250f64bd7f6f
+		summarizeBy: none
+		sourceColumn: Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	partition company_metadata = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\company_metadata.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Industry", "Market_Cap_Tier", "Currency"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Industry", type text}, {"Market_Cap_Tier", type text}, {"Currency", type text}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

@@ -1,0 +1,75 @@
+table sector_summary
+	lineageTag: 23000000-0000-0000-0000-000000000001
+
+	column 'Sector'
+		dataType: string
+		lineageTag: 41de8426-70e4-47b3-84eb-b85f6c5e9f92
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company_Count'
+		dataType: double
+		lineageTag: ffb97f98-8d60-4ce0-982c-ce7bb667faeb
+		summarizeBy: sum
+		sourceColumn: Company_Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Daily_Return'
+		dataType: double
+		lineageTag: 708d5e11-8225-44e7-8e2d-43e5967363c2
+		summarizeBy: sum
+		sourceColumn: Avg_Daily_Return
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Annual_Volatility'
+		dataType: double
+		lineageTag: daf757f4-83bb-40b2-b725-3634bf10b8c0
+		summarizeBy: sum
+		sourceColumn: Avg_Annual_Volatility
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Volume'
+		dataType: double
+		lineageTag: 78c97a39-0a4a-4495-af9c-ba19b1e35e8f
+		summarizeBy: sum
+		sourceColumn: Avg_Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Activity_Weight_Pct'
+		dataType: double
+		lineageTag: 186d0c5f-b28e-4b60-a3e0-ac8c32acd86a
+		summarizeBy: sum
+		sourceColumn: Activity_Weight_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition sector_summary = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\sector_summary.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Sector", "Company_Count", "Avg_Daily_Return", "Avg_Annual_Volatility", "Avg_Volume", "Activity_Weight_Pct"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Sector", type text}, {"Company_Count", type number}, {"Avg_Daily_Return", type number}, {"Avg_Annual_Volatility", type number}, {"Avg_Volume", type number}, {"Activity_Weight_Pct", type number}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

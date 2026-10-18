@@ -1,0 +1,85 @@
+table ml_trend_projections
+	lineageTag: 14290000-0000-0000-0000-000000000001
+
+	column 'Date'
+		dataType: string
+		lineageTag: 23719130-d6ba-40df-aa79-33bacb4287f5
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: 34633e78-cf5c-4ba9-a401-30fae4d6cf11
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: c4c56d4b-442e-4a82-b90e-63ef8d6bc97f
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: b67f3f47-f59e-4021-93db-49127070353f
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual_Close'
+		dataType: double
+		lineageTag: a6f0953d-dac2-4418-a544-fed06bed8bf6
+		summarizeBy: sum
+		sourceColumn: Actual_Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Projected_Trend_Price'
+		dataType: double
+		lineageTag: cde372e7-277d-4f79-b11d-2bdcaa636dcc
+		summarizeBy: sum
+		sourceColumn: Projected_Trend_Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Type'
+		dataType: string
+		lineageTag: 69ed8f62-64c4-49a0-a681-cac4d87ecb85
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Disclaimer'
+		dataType: string
+		lineageTag: 5440fcb3-f0aa-4261-aa51-0e80d51a95c1
+		summarizeBy: none
+		sourceColumn: Disclaimer
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_trend_projections = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_trend_projections.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Date", "Ticker", "Company", "Sector", "Actual_Close", "Projected_Trend_Price", "Type", "Disclaimer"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Date", type text}, {"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Actual_Close", type number}, {"Projected_Trend_Price", type number}, {"Type", type text}, {"Disclaimer", type text}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

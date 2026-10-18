@@ -1,0 +1,147 @@
+table risk_return_summary
+	lineageTag: 36830000-0000-0000-0000-000000000001
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: f1fd740f-956e-468b-87e9-4046a1c0d323
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: d8308bfc-53bf-43ec-ab54-c86a7eeb8f28
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: ec8a2b39-5e68-4542-be7b-83ef3ccf1b4d
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start_Date'
+		dataType: string
+		lineageTag: 18dd2a95-1d3f-43c1-b0d0-7fd6d3e3c12f
+		summarizeBy: none
+		sourceColumn: Start_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'End_Date'
+		dataType: string
+		lineageTag: 44f649a4-f3a5-44df-9aad-c613de8c9165
+		summarizeBy: none
+		sourceColumn: End_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total_Trading_Days'
+		dataType: double
+		lineageTag: 7b8f637d-61b9-42c4-8be3-ec2e17c007be
+		summarizeBy: sum
+		sourceColumn: Total_Trading_Days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Start_Price_INR'
+		dataType: double
+		lineageTag: d6b49a3f-208a-43c5-b109-a07e060549b1
+		summarizeBy: sum
+		sourceColumn: Start_Price_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'End_Price_INR'
+		dataType: double
+		lineageTag: c3a9e5e4-ce08-4bc3-814a-2a0659a191aa
+		summarizeBy: sum
+		sourceColumn: End_Price_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total_Return_Pct'
+		dataType: double
+		lineageTag: 8c6aa4b5-f37e-4c26-8fd3-b4eb6cde0b59
+		summarizeBy: sum
+		sourceColumn: Total_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Annualized_Return_CAGR_Pct'
+		dataType: double
+		lineageTag: 9009e30d-5272-4908-9a29-3e0db6b34883
+		summarizeBy: sum
+		sourceColumn: Annualized_Return_CAGR_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Annualized_Volatility_Pct'
+		dataType: double
+		lineageTag: e7fdaf60-3c5f-40cf-92a8-af9e203fa9ef
+		summarizeBy: sum
+		sourceColumn: Annualized_Volatility_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sharpe_Ratio'
+		dataType: double
+		lineageTag: 4a45259e-2f88-46fc-b0db-99ac283732c0
+		summarizeBy: sum
+		sourceColumn: Sharpe_Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Max_Drawdown_Pct'
+		dataType: double
+		lineageTag: 4a462dd6-bf85-4823-a673-d61c5446e12c
+		summarizeBy: sum
+		sourceColumn: Max_Drawdown_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Daily_Volume'
+		dataType: double
+		lineageTag: fe6ff016-d765-405e-b1b7-95d842792e46
+		summarizeBy: sum
+		sourceColumn: Avg_Daily_Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition risk_return_summary = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\risk_return_summary.csv"),[Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Start_Date", "End_Date", "Total_Trading_Days", "Start_Price_INR", "End_Price_INR", "Total_Return_Pct", "Annualized_Return_CAGR_Pct", "Annualized_Volatility_Pct", "Sharpe_Ratio", "Max_Drawdown_Pct", "Avg_Daily_Volume"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Start_Date", type text}, {"End_Date", type text}, {"Total_Trading_Days", type number}, {"Start_Price_INR", type number}, {"End_Price_INR", type number}, {"Total_Return_Pct", type number}, {"Annualized_Return_CAGR_Pct", type number}, {"Annualized_Volatility_Pct", type number}, {"Sharpe_Ratio", type number}, {"Max_Drawdown_Pct", type number}, {"Avg_Daily_Volume", type number}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

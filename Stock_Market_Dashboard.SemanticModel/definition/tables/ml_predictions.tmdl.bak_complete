@@ -1,0 +1,137 @@
+table ml_predictions
+	lineageTag: 31590000-0000-0000-0000-000000000001
+
+	column 'Date'
+		dataType: string
+		lineageTag: 67cf323c-0411-415e-9b7d-6b5a16eb6310
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: cf7e5574-94e0-4b46-ba02-289d01e74fae
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: 3abecbca-b473-4216-b859-9650339f5ed3
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: b461d97b-e543-4c2b-a44e-4bd4861b78d4
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Close'
+		dataType: double
+		lineageTag: 5e5eb28c-8f59-4dc6-ac2b-5c240b00ab0f
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Predicted_Close'
+		dataType: double
+		lineageTag: c29c7bd2-b581-4f52-b014-2b627c1f0d4e
+		summarizeBy: sum
+		sourceColumn: Predicted_Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Residual_Error'
+		dataType: double
+		lineageTag: 23144711-8a7b-4ebd-92e7-0b17ca13a80a
+		summarizeBy: sum
+		sourceColumn: Residual_Error
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs_Error_Pct'
+		dataType: double
+		lineageTag: 5f1ee1a5-1d26-4957-85e7-807f461638ed
+		summarizeBy: sum
+		sourceColumn: Abs_Error_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Split'
+		dataType: string
+		lineageTag: 332b8de5-406e-4c72-bd5a-323c859d8b65
+		summarizeBy: none
+		sourceColumn: Split
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SMA_20'
+		dataType: double
+		lineageTag: 070279db-e816-4122-80a0-761ef6b11b0e
+		summarizeBy: sum
+		sourceColumn: SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volatility_20'
+		dataType: double
+		lineageTag: dded3208-337e-4f42-bcc7-42b517efc1df
+		summarizeBy: sum
+		sourceColumn: Volatility_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volume_SMA_20'
+		dataType: double
+		lineageTag: 07bdf769-5d07-49be-9597-869f2c42371f
+		summarizeBy: sum
+		sourceColumn: Volume_SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Daily_Return_Pct'
+		dataType: double
+		lineageTag: 80cb600d-77ef-4975-acda-72392a7ffd11
+		summarizeBy: sum
+		sourceColumn: Daily_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ml_predictions = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_predictions.csv"),[Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Date", "Ticker", "Company", "Sector", "Close", "Predicted_Close", "Residual_Error", "Abs_Error_Pct", "Split", "SMA_20", "Volatility_20", "Volume_SMA_20", "Daily_Return_Pct"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Date", type text}, {"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Close", type number}, {"Predicted_Close", type number}, {"Residual_Error", type number}, {"Abs_Error_Pct", type number}, {"Split", type text}, {"SMA_20", type number}, {"Volatility_20", type number}, {"Volume_SMA_20", type number}, {"Daily_Return_Pct", type number}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

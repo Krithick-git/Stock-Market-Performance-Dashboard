@@ -1,0 +1,38 @@
+table ml_trend_projections
+	lineageTag: 2aecbd30-42fc-4605-a29b-3228b9957ddd
+
+	column 'Actual_Close'
+		dataType: double
+		lineageTag: bf34bc45-8d8a-4af3-8942-7ab6c8d25176
+		summarizeBy: sum
+		sourceColumn: Actual_Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Projected_Trend_Price'
+		dataType: double
+		lineageTag: 7b9a61cf-0176-4921-86aa-7814edab8add
+		summarizeBy: sum
+		sourceColumn: Projected_Trend_Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ml_trend_projections = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_trend_projections.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Date", "Ticker", "Company", "Sector", "Actual_Close", "Projected_Trend_Price", "Type", "Disclaimer"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Actual_Close", type number}, {"Projected_Trend_Price", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

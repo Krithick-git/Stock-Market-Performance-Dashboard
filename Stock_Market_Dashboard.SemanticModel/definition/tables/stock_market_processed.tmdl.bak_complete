@@ -1,0 +1,295 @@
+table stock_market_processed
+	lineageTag: 3392eec6-e113-4695-9fa9-8096490bfbc6
+
+	measure 'Latest Market Price' = CALCULATE(MAX(stock_market_processed[Close]), LASTDATE(stock_market_processed[Date]))
+		formatString: "₹#,##0.00"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110001
+
+	measure '20-Day Moving Average' = AVERAGE(stock_market_processed[SMA_20])
+		formatString: "₹#,##0.00"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110002
+
+	measure 'Monthly Return %' = AVERAGE(stock_market_processed[Monthly_Return_Pct])
+		formatString: "+0.00%;-0.00%;0.00%"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110003
+
+	measure '20-Day Volatility %' = AVERAGE(stock_market_processed[Volatility_20])
+		formatString: "0.00%"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110004
+
+	measure 'Total Trading Volume' = SUM(stock_market_processed[Volume])
+		formatString: "#,##0"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110005
+
+	measure 'Avg Daily Volume' = AVERAGE(stock_market_processed[Volume])
+		formatString: "#,##0"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110006
+
+	measure 'Max Drawdown %' = MIN(stock_market_processed[Drawdown_Pct])
+		formatString: "0.00%"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110007
+
+	column 'Date'
+		dataType: string
+		lineageTag: 353c6f20-e721-452f-9131-fb5a91383aa3
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: e812667b-4a19-4a60-9181-9685597c98c5
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: fae13109-9e7a-492a-8c2a-1e81cef9a197
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: 296f2c35-6992-4797-a5c8-048c2857894a
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Open'
+		dataType: double
+		lineageTag: 9cd48f44-c1cc-48e9-9760-ab57718f0bde
+		summarizeBy: sum
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'High'
+		dataType: double
+		lineageTag: 84d8f84f-ea5a-43d1-9773-ea93ec722b94
+		summarizeBy: sum
+		sourceColumn: High
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Low'
+		dataType: double
+		lineageTag: c0433cff-6c86-4ff2-bacf-3b08d277d922
+		summarizeBy: sum
+		sourceColumn: Low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Close'
+		dataType: double
+		lineageTag: 44f57fd6-e65d-413e-a46a-49cb03ddb479
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volume'
+		dataType: double
+		lineageTag: 6c1acc98-2fbe-46f1-bd09-a35693c7426d
+		summarizeBy: sum
+		sourceColumn: Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Daily_Return_Pct'
+		dataType: double
+		lineageTag: 3f9e8962-4b3b-4fe7-9d5d-dcd02d33171c
+		summarizeBy: sum
+		sourceColumn: Daily_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Return_Type'
+		dataType: string
+		lineageTag: 2f84c3c3-8d74-4116-8ba2-265fc5e3748b
+		summarizeBy: none
+		sourceColumn: Return_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Monthly_Return_Pct'
+		dataType: double
+		lineageTag: 0e700244-e7a5-4b56-884c-68b87b3f9561
+		summarizeBy: sum
+		sourceColumn: Monthly_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Monthly_Return_Type'
+		dataType: string
+		lineageTag: 30ddb349-c99d-42a8-9163-5a801ef4bea0
+		summarizeBy: none
+		sourceColumn: Monthly_Return_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SMA_20'
+		dataType: double
+		lineageTag: f8a7d835-c6b4-441e-971a-0efc6b1a2608
+		summarizeBy: sum
+		sourceColumn: SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SMA_50'
+		dataType: double
+		lineageTag: 12076f12-16b8-48a2-8438-4d01efcc8b1e
+		summarizeBy: sum
+		sourceColumn: SMA_50
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volatility_20'
+		dataType: double
+		lineageTag: 90e64473-b2da-4629-83d6-c188b0b465b9
+		summarizeBy: sum
+		sourceColumn: Volatility_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Annualized_Volatility_20'
+		dataType: double
+		lineageTag: 9394e1aa-6b65-4ddc-92b6-cd6d24cb9f6f
+		summarizeBy: sum
+		sourceColumn: Annualized_Volatility_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Volume_SMA_20'
+		dataType: double
+		lineageTag: 3cceb0fe-464a-4edc-909d-a5b7020fb1da
+		summarizeBy: sum
+		sourceColumn: Volume_SMA_20
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Cumulative_Return_Pct'
+		dataType: double
+		lineageTag: bee64fa6-c2fd-4d34-bc55-d1da360b8e0d
+		summarizeBy: sum
+		sourceColumn: Cumulative_Return_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Cumulative_Peak'
+		dataType: double
+		lineageTag: 555bb793-c1c7-4920-80e2-cf24dbc0e354
+		summarizeBy: sum
+		sourceColumn: Cumulative_Peak
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Drawdown_Pct'
+		dataType: double
+		lineageTag: 18e4b179-0fc8-4f88-83b4-0d613d5c55bc
+		summarizeBy: sum
+		sourceColumn: Drawdown_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Year'
+		dataType: double
+		lineageTag: 406490f0-337c-4856-8fcd-3af0f10881da
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month'
+		dataType: double
+		lineageTag: d63b0df6-d974-45d2-a393-6abc6cad5ac7
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month_Name'
+		dataType: string
+		lineageTag: a1b77bad-ad2c-402e-85e4-be5a9d434ba1
+		summarizeBy: none
+		sourceColumn: Month_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year_Month'
+		dataType: string
+		lineageTag: 4fff6c0d-bfc6-4908-b26f-21c0c0c7b702
+		summarizeBy: none
+		sourceColumn: Year_Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter'
+		dataType: string
+		lineageTag: 748df6c5-630e-498e-8a59-0ce53a1472f6
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day_of_Week'
+		dataType: string
+		lineageTag: 33e97b3d-3b3d-4188-a60f-c252729a5e2c
+		summarizeBy: none
+		sourceColumn: Day_of_Week
+
+		annotation SummarizationSetBy = Automatic
+
+	partition stock_market_processed = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\stock_market_processed.csv"),[Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Date", "Ticker", "Company", "Sector", "Open", "High", "Low", "Close", "Volume", "Daily_Return_Pct", "Return_Type", "Monthly_Return_Pct", "Monthly_Return_Type", "SMA_20", "SMA_50", "Volatility_20", "Annualized_Volatility_20", "Volume_SMA_20", "Cumulative_Return_Pct", "Cumulative_Peak", "Drawdown_Pct", "Year", "Month", "Month_Name", "Year_Month", "Quarter", "Day_of_Week"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Date", type text}, {"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Open", type number}, {"High", type number}, {"Low", type number}, {"Close", type number}, {"Volume", type number}, {"Daily_Return_Pct", type number}, {"Return_Type", type text}, {"Monthly_Return_Pct", type number}, {"Monthly_Return_Type", type text}, {"SMA_20", type number}, {"SMA_50", type number}, {"Volatility_20", type number}, {"Annualized_Volatility_20", type number}, {"Volume_SMA_20", type number}, {"Cumulative_Return_Pct", type number}, {"Cumulative_Peak", type number}, {"Drawdown_Pct", type number}, {"Year", type number}, {"Month", type number}, {"Month_Name", type text}, {"Year_Month", type text}, {"Quarter", type text}, {"Day_of_Week", type text}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

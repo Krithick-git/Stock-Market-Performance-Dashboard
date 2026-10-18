@@ -1,0 +1,151 @@
+table ml_model_evaluation
+	lineageTag: d722da2a-3096-4c64-acdc-a00048abf2a7
+
+	measure 'Test R² Score' = AVERAGE(ml_model_evaluation[Test_R2])
+		formatString: "0.0000"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110024
+
+	measure 'Test MAE (₹)' = AVERAGE(ml_model_evaluation[Test_MAE_INR])
+		formatString: "₹#,##0.00"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110026
+
+	measure 'Test RMSE (₹)' = AVERAGE(ml_model_evaluation[Test_RMSE_INR])
+		formatString: "₹#,##0.00"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110028
+
+	measure 'Test MAPE %' = AVERAGE(ml_model_evaluation[Test_MAPE_Pct])
+		formatString: "0.00%"
+		lineageTag: 7a1d1e4c-1b77-4b71-b0e2-2a7e78110030
+
+	column 'Ticker'
+		dataType: string
+		lineageTag: 5c0eb5a8-2077-4b2e-b44e-62e9a06398a9
+		summarizeBy: none
+		sourceColumn: Ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company'
+		dataType: string
+		lineageTag: fdab1313-7c1f-4b23-820e-3bc7ff7cf676
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sector'
+		dataType: string
+		lineageTag: 8337a9fc-92ad-404a-9e4c-5171973eebf5
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model'
+		dataType: string
+		lineageTag: f723633c-dc29-417d-b60b-5b8471a3339a
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Train_Records'
+		dataType: double
+		lineageTag: 880120cc-1e41-48fa-80e3-a419bca22938
+		summarizeBy: sum
+		sourceColumn: Train_Records
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_Records'
+		dataType: double
+		lineageTag: 1d6d2ec2-64d0-4260-9c50-81ecc058bcc7
+		summarizeBy: sum
+		sourceColumn: Test_Records
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Train_R2'
+		dataType: double
+		lineageTag: 477c0cc4-5a8a-4a8e-ad67-7f61e31b132e
+		summarizeBy: sum
+		sourceColumn: Train_R2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_R2'
+		dataType: double
+		lineageTag: 44879366-ad00-467d-8e9e-eb1a7bf9d744
+		summarizeBy: sum
+		sourceColumn: Test_R2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_MAE_INR'
+		dataType: double
+		lineageTag: 4d653a82-5959-4898-8eff-5d8096bb6e7f
+		summarizeBy: sum
+		sourceColumn: Test_MAE_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_RMSE_INR'
+		dataType: double
+		lineageTag: 08962efe-481c-431e-bce2-ef7ec1e7c381
+		summarizeBy: sum
+		sourceColumn: Test_RMSE_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_MAPE_Pct'
+		dataType: double
+		lineageTag: bac8e061-50c9-4637-86d7-dfb96919a528
+		summarizeBy: sum
+		sourceColumn: Test_MAPE_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Split_Method'
+		dataType: string
+		lineageTag: b3f968fe-365b-410d-9c19-d2f8311cebc7
+		summarizeBy: none
+		sourceColumn: Split_Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Disclaimer'
+		dataType: string
+		lineageTag: 3a3a411a-3b9f-4ad5-905a-a9de3355f29f
+		summarizeBy: none
+		sourceColumn: Disclaimer
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_model_evaluation = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_model_evaluation.csv"),[Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Model", "Train_Records", "Test_Records", "Train_R2", "Test_R2", "Test_MAE_INR", "Test_RMSE_INR", "Test_MAPE_Pct", "Split_Method", "Disclaimer"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Ticker", type text}, {"Company", type text}, {"Sector", type text}, {"Model", type text}, {"Train_Records", type number}, {"Test_Records", type number}, {"Train_R2", type number}, {"Test_R2", type number}, {"Test_MAE_INR", type number}, {"Test_RMSE_INR", type number}, {"Test_MAPE_Pct", type number}, {"Split_Method", type text}, {"Disclaimer", type text}}, "en-US")
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation

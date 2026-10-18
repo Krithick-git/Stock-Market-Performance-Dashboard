@@ -1,0 +1,68 @@
+table sector_summary
+	lineageTag: b282d09e-01ee-41e1-90a1-96d90329f2b9
+
+	column 'Company_Count'
+		dataType: double
+		lineageTag: 5392bab7-095c-4bd4-ba66-c6af170a8188
+		summarizeBy: sum
+		sourceColumn: Company_Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Daily_Return'
+		dataType: double
+		lineageTag: 198f7565-6066-4154-bb8a-ae104f56e300
+		summarizeBy: sum
+		sourceColumn: Avg_Daily_Return
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Annual_Volatility'
+		dataType: double
+		lineageTag: a406257e-8b70-4355-9d3e-7434dc7ba5ec
+		summarizeBy: sum
+		sourceColumn: Avg_Annual_Volatility
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Avg_Volume'
+		dataType: double
+		lineageTag: c8ac1977-99ee-45b4-ba37-cd2b272d5e4a
+		summarizeBy: sum
+		sourceColumn: Avg_Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Activity_Weight_Pct'
+		dataType: double
+		lineageTag: ad660160-e963-449d-8c76-65086c461df7
+		summarizeBy: sum
+		sourceColumn: Activity_Weight_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition sector_summary = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\sector_summary.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Sector", "Company_Count", "Avg_Daily_Return", "Avg_Annual_Volatility", "Avg_Volume", "Activity_Weight_Pct"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Company_Count", type number}, {"Avg_Daily_Return", type number}, {"Avg_Annual_Volatility", type number}, {"Avg_Volume", type number}, {"Activity_Weight_Pct", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

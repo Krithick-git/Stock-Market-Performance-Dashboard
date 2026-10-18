@@ -1,0 +1,28 @@
+table correlation_pairs
+	lineageTag: 25941aa7-19c3-4a5d-a0b4-39ef13ef1227
+
+	column 'Correlation'
+		dataType: double
+		lineageTag: 6a58c7ee-de30-4263-bd98-f471520ada88
+		summarizeBy: sum
+		sourceColumn: Correlation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition correlation_pairs = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\correlation_pairs.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Company", "Comparison_Company", "Correlation"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Correlation", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

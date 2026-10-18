@@ -1,0 +1,289 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "p5_table_evaluation",
+  "position": {
+    "x": 20,
+    "y": 460,
+    "z": 6000,
+    "height": 240,
+    "width": 780,
+    "tabOrder": -1001
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "objects": {
+      "columnWidth": [],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'A table'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Linear Regression Model Performance Benchmarks (Chronological Split)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Ticker"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Ticker",
+              "nativeQueryRef": "Ticker"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Company"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Company",
+              "nativeQueryRef": "Company"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Sector"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Sector",
+              "nativeQueryRef": "Sector"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Model"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Model",
+              "nativeQueryRef": "Model"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Train_Records"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Train_Records",
+              "nativeQueryRef": "Train_Records"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Test_Records"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Test_Records",
+              "nativeQueryRef": "Test_Records"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Train_R2"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Train_R2",
+              "nativeQueryRef": "Train_R2"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Test_R2"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Test_R2",
+              "nativeQueryRef": "Test_R2"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Test_MAE_INR"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Test_MAE_INR",
+              "nativeQueryRef": "Test_MAE_INR"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Test_RMSE_INR"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Test_RMSE_INR",
+              "nativeQueryRef": "Test_RMSE_INR"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Test_MAPE_Pct"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Test_MAPE_Pct",
+              "nativeQueryRef": "Test_MAPE_Pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ml_model_evaluation"
+                    }
+                  },
+                  "Property": "Split_Method"
+                }
+              },
+              "queryRef": "ml_model_evaluation.Split_Method",
+              "nativeQueryRef": "Split_Method"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

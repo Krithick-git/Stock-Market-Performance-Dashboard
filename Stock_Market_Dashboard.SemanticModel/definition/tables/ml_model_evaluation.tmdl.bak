@@ -1,0 +1,88 @@
+table ml_model_evaluation
+	lineageTag: d722da2a-3096-4c64-acdc-a00048abf2a7
+
+	column 'Train_Records'
+		dataType: double
+		lineageTag: ba579d75-5924-4c97-8273-a337e3e878e1
+		summarizeBy: sum
+		sourceColumn: Train_Records
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_Records'
+		dataType: double
+		lineageTag: 1c1603d0-a1b6-4040-8b7c-3622097e7456
+		summarizeBy: sum
+		sourceColumn: Test_Records
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Train_R2'
+		dataType: double
+		lineageTag: 98b2ed8b-529b-41fd-a672-cebd6e0e183a
+		summarizeBy: sum
+		sourceColumn: Train_R2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_R2'
+		dataType: double
+		lineageTag: 6a3d9192-2608-430b-8dfc-acc741f31eb5
+		summarizeBy: sum
+		sourceColumn: Test_R2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_MAE_INR'
+		dataType: double
+		lineageTag: b93bc188-b7e1-4c68-b4ba-3a3ed1f3662b
+		summarizeBy: sum
+		sourceColumn: Test_MAE_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_RMSE_INR'
+		dataType: double
+		lineageTag: 32a95958-6a1c-47a1-a1b8-ed1e60034b3a
+		summarizeBy: sum
+		sourceColumn: Test_RMSE_INR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test_MAPE_Pct'
+		dataType: double
+		lineageTag: e271b587-2f21-4041-86d0-02466f814729
+		summarizeBy: sum
+		sourceColumn: Test_MAPE_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ml_model_evaluation = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\admin\Documents\stock market\data\processed\ml_model_evaluation.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","NA",null,Replacer.ReplaceValue,{"Ticker", "Company", "Sector", "Model", "Train_Records", "Test_Records", "Train_R2", "Test_R2", "Test_MAE_INR", "Test_RMSE_INR", "Test_MAPE_Pct", "Split_Method", "Disclaimer"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{  {"Train_Records", type number}, {"Test_Records", type number}, {"Train_R2", type number}, {"Test_R2", type number}, {"Test_MAE_INR", type number}, {"Test_RMSE_INR", type number}, {"Test_MAPE_Pct", type number}   })
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
